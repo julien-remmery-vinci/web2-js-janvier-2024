@@ -1,0 +1,94 @@
+@baseUrl = http://localhost:3000
+
+### Create the pinkLady user
+# @name pinkLady
+POST {{baseUrl}}/auths/register
+Content-Type: application/json
+
+{
+    "username":"pinkLady",
+    "password":"test"
+}
+
+### Create the greenMan user
+# @name greenMan
+POST {{baseUrl}}/auths/register
+Content-Type: application/json
+
+{
+    "username":"greenMan",
+    "password":"test"
+}
+
+### Login the pinkLady user
+# @name pinkLady
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"pinkLady",
+    "password":"test"
+}
+
+### Login the greenMan user
+# @name greenMan
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"greenMan",
+    "password":"test"
+}
+
+### 1.Créer évaluation avec score correct pour pinkLady
+POST {{baseUrl}}/evaluate/1
+Content-Type: application/json
+Authorization: {{pinkLady.response.body.token}}
+
+{
+    "score": 5
+}
+
+### 2.Créer évaluation avec score correct pour greenMan
+POST {{baseUrl}}/evaluate/1
+Content-Type: application/json
+Authorization: {{greenMan.response.body.token}}
+
+{
+    "score": 5
+}
+
+### 3.Créer évaluation avec un mauvais score pour pinkLady
+POST {{baseUrl}}/evaluate/1
+Content-Type: application/json
+Authorization: {{pinkLady.response.body.token}}
+
+{
+    "score": 15
+}
+
+### 4.Créer évaluation pour quote qui n'exsite pas pour pinkLady
+POST {{baseUrl}}/evaluate/50
+Content-Type: application/json
+Authorization: {{pinkLady.response.body.token}}
+
+{
+    "score": 5
+}
+
+### 5.Créer évaluation pour quote deja évaluée pour greenMan
+POST {{baseUrl}}/evaluate/1
+Content-Type: application/json
+Authorization: {{greenMan.response.body.token}}
+
+{
+    "score": 5
+}
+
+### 6.Créer évaluation pour un utilisateur non authentifié
+POST {{baseUrl}}/evaluate/1
+Content-Type: application/json
+
+{
+    "score": 5
+}
